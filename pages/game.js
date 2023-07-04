@@ -1,11 +1,14 @@
-import React from "react";
+import { useEffect } from "react";
 import ContainerBlock from "../components/ContainerBlock";
-import Game from "../components/Game";
+import GamePage from "../components/GamePage";
 
-export default function game() {
+
+const gamePage = () => {
   return (
     <ContainerBlock>
-      <Game />
+      <GamePage />
     </ContainerBlock>
   );
 }
+
+export default gamePage;

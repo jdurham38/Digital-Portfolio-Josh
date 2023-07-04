@@ -2651,6 +2651,38 @@
     "@babel/plugin-transform-template-literals" "^7.0.0"
     "babel-plugin-syntax-trailing-function-commas" "^7.0.0-beta.0"
 
+"babylonjs-gltf2interface@^6.10.0":
+  "integrity" "sha512-jvpujIGV3DyiRa6p94N/IPuD/l3hZ9QCZj39ocu8TcT61OS/X9y5Pfl9btO7laH5ulGX4XxhTx0JFEcojUuRMQ=="
+  "resolved" "https://registry.npmjs.org/babylonjs-gltf2interface/-/babylonjs-gltf2interface-6.10.0.tgz"
+  "version" "6.10.0"
+
+"babylonjs-gui@^6.10.0":
+  "integrity" "sha512-kMDj+tsYmaPjhj1t5NNkdA1gNRHr2t2PGdxuAPySjgK/3iszdfbPLiHQBraBEktdVFSvZ4H852F0+hsWvu9XeA=="
+  "resolved" "https://registry.npmjs.org/babylonjs-gui/-/babylonjs-gui-6.10.0.tgz"
+  "version" "6.10.0"
+  dependencies:
+    "babylonjs" "^6.10.0"
+
+"babylonjs-loaders@^6.10.0":
+  "integrity" "sha512-/6v/20azpImyzx6mHNX6S6HM9ILUs57s/rSHD8yyfKyqhi312F3NqnMNAjG0NcCAWAW7J7W7oUIHn9KgaE6FgQ=="
+  "resolved" "https://registry.npmjs.org/babylonjs-loaders/-/babylonjs-loaders-6.10.0.tgz"
+  "version" "6.10.0"
+  dependencies:
+    "babylonjs" "^6.10.0"
+    "babylonjs-gltf2interface" "^6.10.0"
+
+"babylonjs-materials@^6.10.0":
+  "integrity" "sha512-6jjCDSzxmAg8AZ7ktfBYAS7ysc2sfoTw3nYk15LDEWavMhSVYAYISyRojyUzCF8ruxRltFJCeYP4QJbUFVlgTg=="
+  "resolved" "https://registry.npmjs.org/babylonjs-materials/-/babylonjs-materials-6.10.0.tgz"
+  "version" "6.10.0"
+  dependencies:
+    "babylonjs" "^6.10.0"
+
+"babylonjs@^6.10.0":
+  "integrity" "sha512-apJa97Kc1NQpPJV0A+AuMxvsFBOWkyI/BV04xESwueVCqKRTrSIa+hvmkGO1x0tpk1GXuaIJuBe2QywISq8bsg=="
+  "resolved" "https://registry.npmjs.org/babylonjs/-/babylonjs-6.10.0.tgz"
+  "version" "6.10.0"
+
 "balanced-match@^1.0.0":
   "integrity" "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
   "resolved" "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"

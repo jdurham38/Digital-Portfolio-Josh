@@ -8,6 +8,7 @@ import CatAnimation from "./CatAnimation";
 
 
 
+
 export default function Navbar() {
   const router = useRouter();
   console.log(router.asPath);
