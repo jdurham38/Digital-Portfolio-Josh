@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-function GamePage() {
+const GamePage = () => {
   const backgroundImageUrl =
-    "https://tse2.mm.bing.net/th?id=OIP.l0yPbfd9jRoKZiBaZQwFGwHaEK&pid=Api&P=0&h=180"; // Replace with the URL of your desired background image
-  const gameUrl = "https://my-dig-port-game.vercel.app"; // Replace with the URL of your game website
+    "https://tse2.mm.bing.net/th?id=OIP.l0yPbfd9jRoKZiBaZQwFGwHaEK&pid=Api&P=0&h=180";
+  const gameUrl = "https://my-dig-port-game.vercel.app";
+  const apiEndpoint = "https://myapiportfolio.azurewebsites.net/api/HelloWorld";
+
+  const [responseText, setResponseText] = useState("");
+
+  useEffect(() => {
+    // Fetch data from the API endpoint
+    fetch(apiEndpoint)
+      .then((response) => response.text())
+      .then((data) => setResponseText(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   return (
     <div
@@ -31,12 +42,13 @@ function GamePage() {
           }}
         />
         <h1>Play the Game</h1>
+        <p>API Response: {responseText}</p>
         <a href={gameUrl} target="_blank" rel="noopener noreferrer">
           <button>Play Now</button>
         </a>
       </div>
     </div>
   );
-}
+};
 
 export default GamePage;

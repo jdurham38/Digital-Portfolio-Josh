@@ -3,32 +3,36 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import userData from "@constants/data";
-import CatAnimation from "./CatAnimation";
-
-
-
-
 
 export default function Navbar() {
   const router = useRouter();
-  console.log(router.asPath);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [showExperienceDropdown, setShowExperienceDropdown] = useState(false);
-  const [showProjectsDropdown, setShowProjectsDropdown] = useState(false);
-  const [showExperienceDropdownTimeout, setShowExperienceDropdownTimeout] = useState(null);
-  const [showProjectsDropdownTimeout, setShowProjectsDropdownTimeout] = useState(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProjectsDropdownOpen, setIsProjectsDropdownOpen] = useState(false);
+
+  const toggleProjectsDropdown = () => {
+    setIsProjectsDropdownOpen(!isProjectsDropdownOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const toggleMobileMenu = () => {
+    setShowMobileMenu((prevShowMobileMenu) => !prevShowMobileMenu);
+  };
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10 md:py-20">
-      <CatAnimation />
-      <div className="flex md:flex-row justify-between items-center">
+    <div className="max-w-6xl mx-auto px-4 py-8 md:py-16"> {/* Adjust the top and bottom padding */}
+      <div className="sm:py-10 flex md:flex-row justify-between items-center space-x-8"> {/* Adjust the top padding */}
         <div className="flex flex-col">
           <Link href="/">
-            <h1 className="font-semibold text-xl text-[#3C312A] dark:text-[#FFFCF2]">
+            <h1 className="font-Cabin text-xl text-[#3C312A] dark:text-[#FFFCF2]">
               {userData.name}
             </h1>
             <p className="text-base font-light text-[#3C312A] dark:text-[#FFFCF2]">
@@ -37,7 +41,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="space-x-8 hidden md:block">
+        <div className="space-x-8 hidden md:block relative">
           {/* About */}
           <Link
             href="/about"
@@ -64,47 +68,14 @@ export default function Navbar() {
             )}
           </Link>
 
-
-
-
-          {/* About */}
-          <Link
-            href="/blog"
-            className={`text-base  ${router.asPath === "/blog"
-              ? "text-[#3C312A] font-bold dark:text-[#FFFCF2]"
-              : "text-[#3C312A] dark:text-[#FFFCF2] font-normal "
-              }`}
-          >
-            Blog
-            {router.asPath === "/blog" && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-arrow-down inline-block h-3 w-3"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                />
-              </svg>
-            )}
-          </Link>
-
-          {/* Experience Dropdown */}
+          {/* Projects */}
           <div className="relative inline-block">
-            <h1>
-              <button
-                onMouseEnter={() => setShowExperienceDropdown(true)}
-                onMouseLeave={() => {
-                  const timeoutId = setTimeout(() => setShowExperienceDropdown(false), 200);
-                  setShowExperienceDropdownTimeout(timeoutId);
-                }}
-                className="text-base text-[#3C312A] dark:text-[#FFFCF2] font-normal outline-none transition-colors duration-200 hover:text-[#0070F3] dark:hover:text-[#0070F3] focus:text-[#0070F3] focus:outline-none"
-              >
-                Experience
+            <Link
+              href="/projects"
+              className={`text-base ${router.asPath === "/projects" ? "text-[#3C312A] font-bold dark:text-[#FFFCF2]" : "text-[#3C312A] dark:text-[#FFFCF2] font-normal "}`}
+            >
+              Projects
+              <button onClick={toggleDropdown} className="ml-1 focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -119,125 +90,82 @@ export default function Navbar() {
                   />
                 </svg>
               </button>
-              {showExperienceDropdown && (
-                <div
-                  onMouseEnter={() => {
-                    clearTimeout(showExperienceDropdownTimeout);
-                    setShowExperienceDropdown(true);
-                  }}
-                  onMouseLeave={() => setShowExperienceDropdown(false)}
-                  className="absolute z-10 mt-2 space-y-2 p-2 bg-white dark:bg-[#0D1117] shadow-md rounded-md right-[-30px]"
-                >
-                  {/* Dropdown options */}
-                  <Link href="/experience" passHref>
-                    
-                    <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                      Experience
-                    </span>
-                  </Link>
-
-                  {/* Nested Projects Dropdown */}
-                  <div className="relative inline-block">
-                    <button
-                      onMouseEnter={() => setShowProjectsDropdown(true)}
-                      onMouseLeave={() => {
-                        const timeoutId = setTimeout(() => setShowProjectsDropdown(false), 200);
-                        setShowProjectsDropdownTimeout(timeoutId);
-                      }}
-                      className="text-base text-[#3C312A] dark:text-[#FFFCF2] font-normal outline-none transition-colors duration-200 hover:text-[#0070F3] dark:hover:text-[#0070F3] focus:text-[#0070F3] focus:outline-none"
-                    >
-                      <Link href="/projects" passHref>
-                        <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                          Projects
-                        </span>
-                      </Link>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-arrow-down inline-block h-3 w-3"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                        />
-                      </svg>
-                    </button>
-                    {showProjectsDropdown && (
-                      <div
-                        onMouseEnter={() => {
-                          clearTimeout(showProjectsDropdownTimeout);
-                          setShowProjectsDropdown(true);
-                        }}
-                        onMouseLeave={() => setShowProjectsDropdown(false)}
-                        className="absolute z-10 mt-[-50px] space-y-2 p-2 bg-white dark:bg-[#0D1117] shadow-md rounded-md right-[-175px]"
-                      >
-                        <Link href="/projects#project1" passHref>
-                          <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                            EBO
-                          </span>
-                        </Link>
-                        <Link href="/projects#project2" passHref>
-                          <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                            Mars Rover
-                          </span>
-                        </Link>
-                        <Link href="/projects#project3" passHref>
-                          <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                            Dabloon Token
-                          </span>
-                        </Link>
-                        <Link href="/projects#project4" passHref>
-                          <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                            Discord Bot
-                          </span>
-                        </Link>
-                        <Link href="/projects#project5" passHref>
-                          <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                            HMS
-                          </span>
-                        </Link>
-                        <Link href="/projects#project6" passHref>
-                          <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
-                            Mechanical Flower 
-                          </span>
-                        </Link>
-                        {/* Add more project links as needed */}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </h1>
+            </Link>
+            {isDropdownOpen && (
+              <div className="absolute left-0 mt-1 p-2 bg-white border border-gray-300 shadow-lg rounded-md">
+                {/* Dropdown content */}
+                <Link href="/projects#project1" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    EBO
+                  </span>
+                </Link>
+                <Link href="/projects#project2" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Mars Rover
+                  </span>
+                </Link>
+                <Link href="/projects#project3" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Dabloon Token
+                  </span>
+                </Link>
+                <Link href="/projects#project4" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Discord Bot
+                  </span>
+                </Link>
+                <Link href="/projects#project5" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    HMS
+                  </span>
+                </Link>
+                <Link href="/projects#project6" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Mechanical Flower
+                  </span>
+                </Link>
+                <Link href="https://my-dig-port-game.vercel.app" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Play My Game!
+                  </span>
+                </Link>
+                {/* Add more project links here */}
+                
+              </div>
+            )}
           </div>
 
-
-          {/* Game */}
+          {/* Blog */}
           <Link
-            href="/game"
-            className={`text-base  ${router.asPath === "/game"
-              ? "text-[#3C312A] font-bold dark:text-[#FFFCF2]"
+            href="/blog"
+            className={`text-base  ${router.asPath === "/blog"
+              ? "text-gray-800 font-bold dark:text-[#FFFCF2]"
               : "text-[#3C312A] dark:text-[#FFFCF2] font-normal "
               }`}
           >
-            Game
-            {router.asPath === "/game" && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-arrow-down inline-block h-3 w-3"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                />
-              </svg>
-            )}
+            Blog
+          </Link>
+
+          {/* Experience */}
+          <Link
+            href="/experience"
+            className={`text-base  ${router.asPath === "/experience"
+              ? "text-gray-800 font-bold dark:text-[#FFFCF2]"
+              : "text-[#3C312A] dark:text-[#FFFCF2] font-normal "
+              }`}
+          >
+            Experience
+          </Link>
+
+          {/* Experience */}
+          <Link
+            href="/myapi"
+            className={`text-base  ${router.asPath === "/myapi"
+              ? "text-gray-800 font-bold dark:text-[#FFFCF2]"
+              : "text-[#3C312A] dark:text-[#FFFCF2] font-normal "
+              }`}
+          >
+            API
           </Link>
 
 
@@ -268,33 +196,23 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="space-x-4 flex flex-row items-center">
-          <a href={userData.socialLinks.instagram} x>
+          <a href={userData.socialLinks.github}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               fill="currentColor"
-              className="bi bi-instagram h-5 w-5"
-              viewBox="0 0 16 16"
+              className="bi bi-github"
+              viewBox="0 0 16 16" // Updated viewBox to "0 0 16 16"
             >
-              <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+              <path
+                fillRule="evenodd"
+                d="M8 .5a7.5 7.5 0 00-2.384 14.625c.377.07.515-.163.515-.363 0-.18-.007-.658-.01-1.293-2.097.456-2.536-1.018-2.536-1.018a2.002 2.002 0 00-.832-1.104c-.678-.46.052-.451.052-.451a1.588 1.588 0 011.158.78 1.605 1.605 0 002.191.626 1.61 1.61 0 01.478-1.007c-1.674-.19-3.433-.837-3.433-3.724a2.92 2.92 0 01.78-2.033 2.709 2.709 0 01.071-2.007s.635-.204 2.083.777a7.389 7.389 0 014.015 0c1.448-.981 2.081-.777 2.081-.777a2.707 2.707 0 01.071 2.007 2.92 2.92 0 01.78 2.033c0 2.893-1.763 3.532-3.443 3.724a1.801 1.801 0 01.518 1.401c0 1.015-.01 1.833-.01 2.084 0 .2.134.434.518.361A7.5 7.5 0 008 0h.002zm-1.291 11.646c-.02.006-.032.016-.038.031a.168.168 0 000 .1v1.56c-.232.051-.471.075-.71.077-.239-.002-.478-.026-.71-.077V12.77c0-.033-.014-.062-.04-.083a.135.135 0 00-.1 0c-.048.03-.096.048-.14.052a2.55 2.55 0 01-1.174 0c-.044-.004-.092-.022-.14-.052a.13.13 0 00-.1 0c-.025.021-.04.05-.04.083v1.466c-.24.05-.48.075-.72.077-.237-.002-.474-.027-.704-.077V11.78c0-.034-.014-.064-.04-.084a.134.134 0 00-.1 0 1.064 1.064 0 01-.148.01 2.61 2.61 0 01-1.427-.414.743.743 0 01-.277-.234c-.316-.392-.38-.862-.38-1.185v-.001c0-.67.417-1.42 1.03-1.644-.02-.044-.033-.092-.038-.142a.129.129 0 00-.064-.1 6.08 6.08 0 011.62-.205c.552.006 1.23.074 1.912.26.156-.044.325-.066.5-.066.173 0 .343.022.5.066a7.635 7.635 0 011.912-.26c.66-.012 1.314.09 1.902.265a.128.128 0 00.068.1c.004.05.017.098.038.142.613.225 1.03.975 1.03 1.644v.001c0 .323-.064.793-.38 1.185a.742.742 0 01-.276.234 2.61 2.61 0 01-1.427.414 1.09 1.09 0 01-.148-.01c-.027.02-.04.05-.04.084v1.56c-.232.051-.47.075-.71.077-.237-.002-.474-.026-.704-.077V11.78c0-.034-.014-.064-.04-.084a.132.132 0 00-.1 0c-.048.03-.096.048-.14.052a1.785 1.785 0 01-1.174 0c-.045-.004-.092-.022-.14-.052z"
+              />
             </svg>
+
           </a>
-          <a
-            href={userData.socialLinks.twitter}
-            className="text-base font-normal text-[#3C312A] dark:text-[#FFFCF2]"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-twitter h-5 w-5"
-              viewBox="0 0 16 16"
-            >
-              <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
-            </svg>
-          </a>
+
           <a
             href={userData.socialLinks.linkedin}
             className="text-base font-normal text-[#3C312A] dark:text-[#FFFCF2]"
@@ -343,11 +261,110 @@ export default function Navbar() {
             )}
           </button>
         </div>
+        {/* Mobile menu - Hamburger icon */}
+        <button
+          className="md:hidden block text-[#3C312A] dark:text-[#FFFCF2] text-base font-normal outline-none transition-colors duration-200 hover:text-[#0070F3] dark:hover:text-[#0070F3] focus:text-[#0070F3] focus:outline-none"
+          onClick={toggleMobileMenu}
+        >
+          ☰
+        </button>
       </div>
+      {/* Mobile menu content */}
+      {showMobileMenu && (
+        <div className="md:hidden mt-2 space-y-2 p-2 bg-white dark:bg-[#0D1117] shadow-md rounded-md">
+          <Link href="/" passHref>
+            <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+              Home
+            </span>
+          </Link>
+          <Link href="/about" passHref>
+            <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+              About
+            </span>
+          </Link>
+          {/* Projects Dropdown */}
+          <div className="relative inline-block">
+            <button
+              onClick={toggleProjectsDropdown}
+              className="text-base text-[#3C312A] dark:text-[#FFFCF2] font-normal outline-none transition-colors duration-200 hover:text-[#0070F3] dark:hover:text-[#0070F3] focus:text-[#0070F3] focus:outline-none px-2 py-1" // Adjusted padding here
+            >
+              Projects
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-down inline-block h-3 w-3"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
+                />
+              </svg>
+            </button>
+            {isProjectsDropdownOpen && (
+              <div className="absolute z-10 mt-2 p-2 bg-white dark:bg-[#0D1117] bg-opacity-90 shadow-md rounded-md right-0">
+                {/* Dropdown content */}
+                <Link href="/projects#project1" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    EBO
+                  </span>
+                </Link>
+                <Link href="/projects#project2" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Mars Rover
+                  </span>
+                </Link>
+                <Link href="/projects#project3" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Dabloon Token
+                  </span>
+                </Link>
+                <Link href="/projects#project4" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Discord Bot
+                  </span>
+                </Link>
+                <Link href="/projects#project5" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    HMS
+                  </span>
+                </Link>
+                <Link href="/projects#project6" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Mechanical Flower
+                  </span>
+                </Link>
+                <Link href="https://my-dig-port-game.vercel.app" passHref>
+                  <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+                    Play My Game!
+                  </span>
+                </Link>
+                {/* Add more project links if needed */}
+              </div>
+              
+            )}
+          </div>
+          <Link href="/experience" passHref>
+            <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+              Experience
+            </span>
+          </Link>
 
-
-
-
+          <Link href="/myapi" passHref>
+            <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+              API
+            </span>
+          </Link>
+          <Link href="/contact" passHref>
+            <span className="block px-2 py-1 text-base font-normal text-[#3C312A] dark:text-[#FFFCF2] hover:text-[#0070F3] dark:hover:text-[#0070F3]">
+              Contact
+            </span>
+          </Link>
+          {/* Add other mobile menu links as needed */}
+        </div>
+      )}
     </div>
   );
 }

@@ -7,16 +7,16 @@ export default function LatestCode({ repositories }) {
   const [repos, setRepos] = useState(repositories);
 
   return (
-    <section className="bg-[#f4f3ee] -mt-40 dark:bg-[#1F1F1F] pb-40">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center md:pt-40 mx-10">
-          <h1 className="text-6xl lg:text-7xl max-w-lg font-bold text-brown-300 my-20 md:my-30 md:text-[#221E1B] dark:text-[#FFFFFF] text-center lg:text-left">
+    <section className="bg-[#f4f3ee] -mt-40 dark:bg-[#1F1F1F] pb-20 md:pb-40">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="flex flex-col items-center md:items-start md:pt-40 mx-auto">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-brown-300 my-10 md:my-20 text-center md:text-left">
             Latest Code
           </h1>
 
           <a
             href={`https://github.com/${userData.githubUsername}`}
-            className="mb-20 md:mb-0 px-8 py-4 rounded-md bg-[#483A33] hover:bg-[#625041] dark:bg-[#00B8AE] dark:hover:bg-[#00A39B] shadow-lg text-xl font-semibold flex flex-row space-x-4 items-center md:text-[#F4F3EE] dark:text-[#F3F7F3]"
+            className="mb-10 md:mb-0 px-6 py-3 rounded-md bg-[#483A33] hover:bg-[#625041] dark:bg-[#00B8AE] dark:hover:bg-[#00A39B] shadow-lg text-xl font-semibold flex items-center md:text-[#F4F3EE] dark:text-[#F3F7F3]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -28,22 +28,19 @@ export default function LatestCode({ repositories }) {
               strokeWidth="4"
               viewBox="0 0 16 16"
             >
-              <path
-                fillRule="evenodd"
-                d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-              />
+              {/* ... SVG path data */}
             </svg>
-            <p>View GitHub</p>
+            <p className="ml-2">View GitHub</p>
           </a>
         </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-10 lg:-mt-10 gap-y-20">
-        {/* Single github Repo */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Single github Repo */}
 
-        {repos &&
-          repos.map((latestRepo, idx) => (
-            <GithubRepoCard latestRepo={latestRepo} key="idx" />
-          ))}
+          {repos &&
+            repos.map((latestRepo, idx) => (
+              <GithubRepoCard latestRepo={latestRepo} key={idx} />
+            ))}
+        </div>
       </div>
     </section>
   );
@@ -51,19 +48,19 @@ export default function LatestCode({ repositories }) {
 
 const GithubRepoCard = ({ latestRepo }) => {
   return (
-    <div className="github-repo">
-      <h1 className="font-semibold text-xl  text-[#483A33] dark:text-[#00CCC2] ">
+    <div className="github-repo bg-white dark:bg-[#242424] p-6 rounded-lg shadow-md">
+      <h1 className="font-semibold text-xl text-[#483A33] dark:text-[#00CCC2] mb-2">
         {latestRepo.name}
       </h1>
-      <p className="text-base font-normal my-4 text-[#927563] dark:text-[#EBFFFE]">
+      <p className="text-base font-normal text-[#927563] dark:text-[#EBFFFE] mb-4">
         {latestRepo.description}
       </p>
       <a
         href={latestRepo.clone_url}
-        className="font-semibold group flex flex-row space-x-2 w-full items-center text-[#483A33] dark:text-[#C2FFFC]"
+        className="font-semibold group flex items-center text-[#483A33] dark:text-[#C2FFFC]"
       >
-        <p>View Repository </p>
-        <div className="transform  group-hover:translate-x-2 transition duration-300">
+        <p className="mr-1">View Repository</p>
+        <div className="transform group-hover:translate-x-2 transition duration-300">
           &rarr;
         </div>
       </a>

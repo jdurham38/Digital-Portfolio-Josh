@@ -23,7 +23,7 @@
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "net": "^1.0.2",
-    "next": "^13.3.0",
+    "next": "^13.4.12",
     "next-themes": "latest",
     "nodemailer": "^6.9.1",
     "react": "18.2.0",

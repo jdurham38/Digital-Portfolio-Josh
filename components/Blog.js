@@ -76,88 +76,71 @@ export default function Blog() {
 
   return (
     <section className="bg-[#F4F3EE] dark:bg-[#1F1F1F]">
-      <div className="max-w-6xl mx-auto h-48 bg-[#F4F3EE] dark:bg-[#1F1F1F]">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         <h1 className="text-5xl md:text-9xl font-bold py-20 text-center md:text-left flex justify-center items-center">
           Blog
         </h1>
-      </div>
-      <div className="bg-[#F4F3EE] dark:bg-[#1F1F1F] -mt-4">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <h2 className="text-3xl font-semibold mb-4"></h2>
 
-          <div className="flex items-center mb-4 ">
-            <label className="mr-2">
+        {/* Category checkboxes */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {Object.keys(categoryColors).map((category) => (
+            <label key={category} className="flex items-center">
               <input
                 type="checkbox"
-                checked={selectedCategories.includes("personal life")}
-                onChange={() => handleCategoryChange("personal life")}
+                checked={selectedCategories.includes(category)}
+                onChange={() => handleCategoryChange(category)}
+                className="mr-2"
               />
-              Personal Life
+              {category}
             </label>
-            <label className="mr-2">
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes("tech")}
-                onChange={() => handleCategoryChange("tech")}
-              />
-              Tech
-            </label>
-            <label className="mr-2">
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes("outdoors")}
-                onChange={() => handleCategoryChange("outdoors")}
-              />
-              Outdoors
-            </label>
-          </div>
-          <div className="grid grid-cols-3 gap-4 dark:text-black">
-            {filteredData.map((tile, index) => (
+          ))}
+        </div>
+
+        {/* Blog tiles */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 dark:text-black">
+          {filteredData.map((tile, index) => (
+            <div
+              key={index}
+              className={`p-4 border rounded`}
+              style={{
+                backgroundColor: categoryColors[tile.category.toLowerCase()],
+              }}
+            >
               <div
-                key={index}
-                className={`p-4 border rounded`}
-                style={{
-                  width: "300px",
-                  height: "170px",
-                  backgroundColor: categoryColors[tile.category.toLowerCase()],
-                }}
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => handleTileClick(index)}
               >
-                <div
-                  className="flex items-center justify-between cursor-pointer"
-                  onClick={() => handleTileClick(index)}
+                <h3 className="text-lg font-semibold">{tile.title}</h3>
+                <div className="text-sm text-gray-500">{tile.category}</div>
+                <div className="text-xs text-gray-500">{tile.date}</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-5 w-5 transition-transform ${
+                    selectedTile === index ? "transform rotate-180" : ""
+                  }`}
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
                 >
-                  <h3 className="text-lg font-semibold">{tile.title}</h3>
-                  <div className="text-sm text-gray-500">{tile.category}</div>
-                  <div className="text-xs text-gray-500">{tile.date}</div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`h-5 w-5 transition-transform ${
-                      selectedTile === index ? "transform rotate-180" : ""
-                    }`}
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path fillRule="evenodd" d="M10 14l6-6H4l6 6z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                {selectedTile === index && (
-                  <>
-                    <div className="mt-4">{tile.content}</div>
-                    {tile.link && (
-                      <a
-                        href={tile.link.startsWith("http") ? tile.link : `/${tile.link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-500 underline"
-                      >
-                        Read More
-                      </a>
-                    )}
-                  </>
-                )}
+                  <path fillRule="evenodd" d="M10 14l6-6H4l6 6z" clipRule="evenodd" />
+                </svg>
               </div>
-            ))}
-          </div>
+              {selectedTile === index && (
+                <>
+                  <div className="mt-4">{tile.content}</div>
+                  {tile.link && (
+                    <a
+                      href={tile.link.startsWith("http") ? tile.link : `/${tile.link}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-500 underline"
+                    >
+                      Read More
+                    </a>
+                  )}
+                </>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
